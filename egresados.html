@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Egresado</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            <h1>Universidad CENFOTEC</h1>
+            <h3>Sistema de Gestión de Egresados</h3>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="login.html">Iniciar Sesión</a></li>
+                <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="egresados.html">Registrar Egresado</a></li>
+                <li><a href="carreras.html">Carreras</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section class="formulario">
+
+            <h2>Registro de Egresados</h2>
+
+            <form action="#">
+
+                <label for="identificacion">Identificación</label>
+                <input type="text" id="identificacion" name="identificacion" placeholder="Ingrese la identificación" required>
+
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required>
+
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" name="correo" placeholder="Ingrese el correo electrónico" required>
+
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ingrese el teléfono" required>
+
+                <label for="fecha">Fecha de Registro</label>
+                <input type="date" id="fecha" name="fecha" required>
+
+                <label for="trabajo">Lugar de Trabajo</label>
+                <input type="text" id="trabajo" name="trabajo" placeholder="Empresa donde trabaja">
+
+                <button type="submit">Guardar Egresado</button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+            Proyecto Final | Desarrollo de Aplicaciones Web |
+            Universidad CENFOTEC © 2026
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

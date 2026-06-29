@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Carreras</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            <h1>Universidad CENFOTEC</h1>
+            <h3>Sistema de Gestión de Egresados</h3>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="login.html">Iniciar Sesión</a></li>
+                <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="egresados.html">Registrar Egresado</a></li>
+                <li><a href="carreras.html">Carreras</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section class="formulario">
+
+            <h2>Registro de Carreras</h2>
+
+            <form action="#">
+
+                <label for="codigo">Código de la Carrera</label>
+                <input type="text" id="codigo" name="codigo" placeholder="Ejemplo: IS-01" required>
+
+                <label for="nombre">Nombre de la Carrera</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre de la carrera" required>
+
+                <label for="escuela">Escuela Académica</label>
+                <select id="escuela" name="escuela" required>
+                    <option value="">Seleccione una escuela</option>
+                    <option>Escuela de Ingeniería del Software</option>
+                    <option>Escuela de Tecnologías de Información</option>
+                    <option>Escuela de Administración</option>
+                    <option>Escuela de Diseño</option>
+                </select>
+
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="5"
+                    placeholder="Descripción de la carrera"></textarea>
+
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado" required>
+                    <option value="">Seleccione un estado</option>
+                    <option>Activa</option>
+                    <option>Inactiva</option>
+                </select>
+
+                <button type="submit">Guardar Carrera</button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+            Proyecto Final | Desarrollo de Aplicaciones Web |
+            Universidad CENFOTEC © 2026
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
