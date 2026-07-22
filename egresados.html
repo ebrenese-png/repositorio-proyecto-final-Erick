@@ -36,29 +36,62 @@
 
             <h2>Registro de Egresados</h2>
 
-            <form action="#">
+             <form id="formularioEgresado">
+
+                <input type="hidden" id="indiceEditar">
 
                 <label for="identificacion">Identificación</label>
-                <input type="text" id="identificacion" name="identificacion" placeholder="Ingrese la identificación" required>
+                <input type="text" id="identificacion" placeholder="Ingrese la identificación">
 
                 <label for="nombre">Nombre Completo</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required>
+                <input type="text" id="nombre" placeholder="Ingrese el nombre completo">
 
                 <label for="correo">Correo Electrónico</label>
-                <input type="email" id="correo" name="correo" placeholder="Ingrese el correo electrónico" required>
+                <input type="email" id="correo" placeholder="Ingrese el correo electrónico">
 
                 <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" name="telefono" placeholder="Ingrese el teléfono" required>
+                <input type="tel" id="telefono" placeholder="Ingrese el teléfono">
 
                 <label for="fecha">Fecha de Registro</label>
-                <input type="date" id="fecha" name="fecha" required>
+                <input type="date" id="fecha">
 
                 <label for="trabajo">Lugar de Trabajo</label>
-                <input type="text" id="trabajo" name="trabajo" placeholder="Empresa donde trabaja">
+                <input type="text" id="trabajo" placeholder="Empresa donde trabaja">
 
-                <button type="submit">Guardar Egresado</button>
+                <button type="submit" id="btnGuardar">
+                    Guardar Egresado
+                </button>
 
             </form>
+
+        </section>
+
+        </section>
+
+        <section class="tabla-registros">
+
+            <h2>Egresados Registrados</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Trabajo</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaEgresados">
+
+                </tbody>
+
+            </table>
 
         </section>
 
@@ -72,6 +105,9 @@
         </p>
 
     </footer>
+    
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/script.js"></script>
 
 </body>
 
