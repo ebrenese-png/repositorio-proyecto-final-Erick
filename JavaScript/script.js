@@ -1,5 +1,3 @@
-
-
 // Obtener el formulario
 const formulario = document.querySelector("#formularioEgresado");
 
@@ -26,16 +24,38 @@ if (formulario) {
     // Lista de egresados
     let listaEgresados = [];
 
-    // Leer Local Storage
-    if (localStorage.getItem("egresados")) {
+    // Obtener egresados desde la API
+async function obtenerEgresados() {
 
-        listaEgresados = JSON.parse(localStorage.getItem("egresados"));
+    try {
+
+        const respuesta = await fetch("http://localhost:3000/egresados");
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudieron obtener los egresados.");
+        }
+
+        listaEgresados = await respuesta.json();
+
+        mostrarEgresados();
+
+    } catch (error) {
+
+        console.error(error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudieron cargar los egresados.",
+            confirmButtonColor: "#003366"
+        });
 
     }
-    
-    // MOSTRAR REGISTROS
-    
-    function mostrarEgresados() {
+
+}
+
+    // obtener registro 
+    function obtenerEgresados() {
 
         tabla.innerHTML = "";
 
@@ -43,15 +63,13 @@ if (formulario) {
 
             tabla.innerHTML += `
                 <tr>
-
                     <td>${egresado.identificacion}</td>
-                    <td>${egresado.nombre}</td>
-                    <td>${egresado.correo}</td>
+                    <td>${egresado.nombreCompleto}</td>
+                    <td>${egresado.correoElectronico}</td>
                     <td>${egresado.telefono}</td>
-                    <td>${egresado.trabajo}</td>
+                    <td>${egresado.empresaActual}</td>
 
                     <td>
-
                         <button onclick="editarEgresado(${indice})">
                             Editar
                         </button>
@@ -59,9 +77,7 @@ if (formulario) {
                         <button onclick="eliminarEgresado(${indice})">
                             Eliminar
                         </button>
-
                     </td>
-
                 </tr>
             `;
 
@@ -69,13 +85,9 @@ if (formulario) {
 
     }
 
-    // Mostrar registros al abrir la página
-    mostrarEgresados();
+    obtenerEgresados();
 
-   
-    // LIMPIAR FORMULARIO
-    
-
+    // Limpiar formulario
     function limpiarFormulario() {
 
         formulario.reset();
@@ -86,20 +98,15 @@ if (formulario) {
 
     }
 
-   
-    // GUARDAR O ACTUALIZAR EGRESADO
-   
-
-    formulario.addEventListener("submit", function (event) {
+    // Evento del formulario
+    formulario.addEventListener("submit", async function (event) {
 
         event.preventDefault();
 
-        // Expresiones regulares
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const regexTelefono = /^[0-9]{8}$/;
         const regexIdentificacion = /^[0-9]+$/;
 
-        // Validar campos vacíos
         if (
             identificacion.value.trim() === "" ||
             nombre.value.trim() === "" ||
@@ -116,9 +123,9 @@ if (formulario) {
             });
 
             return;
+
         }
 
-        // Validar identificación
         if (!regexIdentificacion.test(identificacion.value)) {
 
             Swal.fire({
@@ -129,9 +136,9 @@ if (formulario) {
             });
 
             return;
+
         }
 
-        // Validar correo
         if (!regexCorreo.test(correo.value)) {
 
             Swal.fire({
@@ -142,9 +149,9 @@ if (formulario) {
             });
 
             return;
+
         }
 
-        // Validar teléfono
         if (!regexTelefono.test(telefono.value)) {
 
             Swal.fire({
@@ -155,127 +162,104 @@ if (formulario) {
             });
 
             return;
+
         }
 
-        // Crear objeto
+        // Objeto que espera el backend
         const egresado = {
 
             identificacion: identificacion.value.trim(),
-            nombre: nombre.value.trim(),
-            correo: correo.value.trim(),
+
+            nombreCompleto: nombre.value.trim(),
+
+            correoElectronico: correo.value.trim(),
+
             telefono: telefono.value.trim(),
-            fecha: fecha.value,
-            trabajo: trabajo.value.trim()
+
+            fechaRegistro: fecha.value,
+
+            lugaresTrabajo: [
+
+                {
+                    empresa: trabajo.value.trim(),
+                    puesto: "",
+                    fechaInicio: fecha.value,
+                    fechaFin: null,
+                    descripcion: ""
+                }
+
+            ],
+
+            empresaActual: trabajo.value.trim(),
+
+            puestoActual: "",
+
+            areaProfesional: "",
+
+            linkedin: "",
+
+            portafolio: ""
 
         };
 
-        
-        // ACTUALIZAR O GUARDAR REGISTRO
         if (indiceEditar.value !== "") {
 
-            listaEgresados[indiceEditar.value] = egresado;
-
             Swal.fire({
-                icon: "success",
-                title: "Registro actualizado",
-                text: "Los datos del egresado fueron actualizados correctamente.",
+                icon: "info",
+                title: "Edición",
+                text: "La edición se implementará más adelante.",
                 confirmButtonColor: "#003366"
             });
 
         } else {
 
-            // Guardar nuevo registro
-            listaEgresados.push(egresado);
+            try {
 
-            Swal.fire({
-                icon: "success",
-                title: "Registro exitoso",
-                text: "El egresado fue registrado correctamente.",
-                confirmButtonColor: "#003366"
-            });
+                const respuesta = await fetch("http://localhost:3000/egresados", {
 
-        }
+                    method: "POST",
 
-        // Guardar en Local Storage
-        localStorage.setItem(
-            "egresados",
-            JSON.stringify(listaEgresados)
-        );
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-        // Mostrar registros
-        mostrarEgresados();
+                    body: JSON.stringify(egresado)
 
-        // Limpiar formulario
-        limpiarFormulario();
+                });
 
-    });
-
-    
-    // EDITAR REGISTRO
-    window.editarEgresado = function (indice) {
-
-        const egresado = listaEgresados[indice];
-
-        identificacion.value = egresado.identificacion;
-        nombre.value = egresado.nombre;
-        correo.value = egresado.correo;
-        telefono.value = egresado.telefono;
-        fecha.value = egresado.fecha;
-        trabajo.value = egresado.trabajo;
-
-        indiceEditar.value = indice;
-
-        btnGuardar.textContent = "Actualizar Egresado";
-
-    };  
-
-    
-    // ELIMINAR REGISTRO
-    window.eliminarEgresado = function (indice) {
-
-        Swal.fire({
-
-            title: "¿Está seguro?",
-            text: "El registro será eliminado permanentemente.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#003366",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
-
-        }).then((result) => {
-
-            if (result.isConfirmed) {
-
-                // Eliminar del arreglo
-                listaEgresados.splice(indice, 1);
-
-                // Actualizar Local Storage
-                localStorage.setItem(
-                    "egresados",
-                    JSON.stringify(listaEgresados)
-                );
-
-                // Actualizar tabla
-                mostrarEgresados();
-
-                // Limpiar formulario
-                limpiarFormulario();
+                if (!respuesta.ok) {
+                    throw new Error("No se pudo guardar el egresado.");
+                }
 
                 Swal.fire({
-
                     icon: "success",
-                    title: "Registro eliminado",
-                    text: "El egresado fue eliminado correctamente.",
+                    title: "Registro exitoso",
+                    text: "El egresado fue registrado correctamente.",
                     confirmButtonColor: "#003366"
+                });
 
+                limpiarFormulario();
+
+                obtenerEgresados();
+
+                // Más adelante llamaremos aquí al GET
+                // obtenerEgresados();
+
+            } catch (error) {
+
+                console.error(error);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Ocurrió un problema al guardar el egresado."
                 });
 
             }
 
-        });
+        }
 
-    };
+    });
 
 }
+
